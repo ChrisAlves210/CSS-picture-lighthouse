@@ -1,0 +1,433 @@
+/* Palette and scale tokens */
+:root {
+  color-scheme: light;
+  --size: min(88vw, 760px);
+  --sky: oklch(78% 0.11 43);
+  --horizon: oklch(87% 0.12 76);
+  --sea: oklch(54% 0.1 205);
+  --cliff: oklch(34% 0.07 26);
+  --stone: oklch(48% 0.07 33);
+  --accent: oklch(77% 0.16 66);
+  --shadow: oklch(24% 0.06 242);
+  --scene-ratio: 4 / 3;
+  --scene-size: 12.5%;
+  --horizon-angle: -5deg;
+  --page: oklch(96% 0.025 80);
+  --text: oklch(25% 0.035 34);
+  --muted: oklch(48% 0.04 34);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Page and palette controls */
+body {
+  min-width: 320px;
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+}
+
+.page {
+  width: min(100% - 40px, 920px);
+  margin: 0 auto;
+  padding: clamp(26px, 6vw, 64px) 0 24px;
+}
+
+.masthead {
+  position: relative;
+  padding: 0 0 24px 4px;
+}
+
+.eyebrow,
+.scene-note,
+.colophon,
+.theme-picker legend {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+
+h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 7vw, 64px);
+  font-weight: 500;
+  line-height: 0.98;
+}
+
+.subtitle {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+}
+
+.artwork {
+  position: relative;
+  padding-top: 40px;
+}
+
+.theme-picker {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.theme-picker legend {
+  float: left;
+  margin-right: 8px;
+  padding: 0;
+  color: var(--muted);
+}
+
+.theme-picker input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.theme-picker label {
+  padding: 7px 10px;
+  border: 1px solid color-mix(in oklch, var(--text) 20%, transparent);
+  border-radius: 2px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.theme-picker input:checked + label {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--page);
+}
+
+.theme-picker input:focus-visible + label {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Scene atmosphere */
+.scene {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, calc(var(--size, 760px) - 0px));
+  max-width: 100%;
+  aspect-ratio: var(--scene-ratio);
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--sky, oklch(78% 0.11 43));
+  box-shadow: 0 22px 55px color-mix(in oklch, var(--shadow) 22%, transparent);
+}
+
+.sky {
+  position: absolute;
+  inset: 0 0 34%;
+  background:
+    radial-gradient(ellipse at 70% 91%, color-mix(in oklch, var(--accent) 72%, transparent), transparent 43%),
+    linear-gradient(160deg, var(--sky), var(--horizon));
+}
+
+.sun {
+  position: absolute;
+  z-index: 1;
+  top: 20%;
+  left: 77%;
+  width: var(--scene-size, 95px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, var(--horizon), var(--accent) 68%);
+  box-shadow: 0 0 42px color-mix(in oklch, var(--accent) 60%, transparent);
+}
+
+/* Coast and water shapes */
+.far-shore {
+  position: absolute;
+  z-index: 2;
+  top: 52%;
+  left: -4%;
+  width: 110%;
+  height: 18%;
+  background: var(--stone);
+  clip-path: polygon(0 60%, 9% 51%, 18% 58%, 28% 32%, 40% 40%, 54% 19%, 65% 36%, 77% 30%, 88% 49%, 100% 42%, 100% 100%, 0 100%);
+  opacity: 0.75;
+}
+
+.sea {
+  position: absolute;
+  z-index: 3;
+  inset: 62% 0 0;
+  background:
+    repeating-linear-gradient(177deg, transparent 0 8%, color-mix(in oklch, var(--horizon) 12%, transparent) 8.3% 8.7%, transparent 9% 16%),
+    linear-gradient(180deg, var(--sea), color-mix(in oklch, var(--sea) 66%, var(--shadow)));
+}
+
+.light-beam {
+  position: absolute;
+  z-index: 5;
+  top: 29%;
+  left: 47%;
+  width: 49%;
+  height: 19%;
+  transform: rotate(var(--horizon-angle));
+  transform-origin: left center;
+  clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 58%);
+  background: linear-gradient(90deg, color-mix(in oklch, var(--accent) 60%, transparent), transparent);
+}
+
+.water-glint {
+  position: absolute;
+  z-index: 5;
+  top: 72%;
+  left: 57%;
+  width: 31%;
+  height: 2%;
+  transform: skewX(-24deg);
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  filter: blur(2px);
+}
+
+.cliff-back {
+  position: absolute;
+  z-index: 6;
+  right: -5%;
+  bottom: 0;
+  width: 62%;
+  height: 47%;
+  transform: rotate(-2deg);
+  transform-origin: bottom right;
+  clip-path: polygon(20% 9%, 42% 18%, 55% 8%, 72% 21%, 100% 12%, 100% 100%, 0 100%, 7% 51%);
+  background: linear-gradient(145deg, var(--stone), var(--cliff) 72%);
+}
+
+.cliff-front {
+  position: absolute;
+  z-index: 7;
+  left: 0;
+  bottom: -1%;
+  width: 57%;
+  height: 29%;
+  clip-path: polygon(0 31%, 14% 20%, 30% 34%, 49% 10%, 69% 25%, 86% 13%, 100% 33%, 100% 100%, 0 100%);
+  background: linear-gradient(160deg, color-mix(in oklch, var(--stone) 82%, var(--accent)), var(--cliff) 60%);
+}
+
+/* Lighthouse and foreground details */
+.tower-shadow {
+  position: absolute;
+  z-index: 8;
+  left: 34%;
+  bottom: 25%;
+  width: 16%;
+  height: 35%;
+  transform: skewY(-9deg);
+  background: color-mix(in oklch, var(--shadow) 72%, transparent);
+  filter: blur(7px);
+}
+
+.tower {
+  position: absolute;
+  z-index: 9;
+  left: 32%;
+  bottom: 27%;
+  width: 13%;
+  height: 37%;
+  clip-path: polygon(16% 0, 84% 0, 100% 100%, 0 100%);
+  background: linear-gradient(90deg, var(--horizon), color-mix(in oklch, var(--horizon) 68%, var(--stone)) 76%, var(--stone));
+  box-shadow: inset -10px 0 0 color-mix(in oklch, var(--shadow) 18%, transparent);
+}
+
+.tower::before {
+  position: absolute;
+  top: 17%;
+  left: calc(50% - 7%);
+  width: 14%;
+  height: 13%;
+  border-radius: 50% 50% 0 0;
+  background: var(--sea);
+  box-shadow: 0 31px 0 -1px var(--sea);
+  content: "";
+}
+
+.lantern-room {
+  position: absolute;
+  z-index: 11;
+  left: 30.5%;
+  bottom: 63%;
+  width: 16%;
+  height: 9%;
+  border: 2px solid var(--cliff);
+  background: linear-gradient(90deg, var(--accent), var(--horizon) 55%, var(--accent));
+  box-shadow: 0 0 20px color-mix(in oklch, var(--accent) 68%, transparent);
+}
+
+.lantern-room::before,
+.lantern-room::after {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--cliff);
+  content: "";
+}
+
+.lantern-room::before {
+  left: 34%;
+}
+
+.lantern-room::after {
+  right: 34%;
+}
+
+.lantern-roof {
+  position: absolute;
+  z-index: 12;
+  left: 29%;
+  bottom: 71%;
+  width: 19%;
+  height: 6%;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: var(--cliff);
+}
+
+.balcony {
+  position: absolute;
+  z-index: 13;
+  left: 29%;
+  bottom: 62%;
+  width: 19%;
+  height: 1.6%;
+  background: var(--cliff);
+  box-shadow: 0 4px 0 -1px var(--cliff);
+}
+
+.door {
+  position: absolute;
+  z-index: 10;
+  left: 36%;
+  bottom: 27%;
+  width: 5%;
+  height: 10%;
+  border-radius: 50% 50% 0 0;
+  background: var(--cliff);
+}
+
+.window {
+  position: absolute;
+  z-index: 10;
+  left: 36.5%;
+  bottom: 44%;
+  width: 4%;
+  height: 5%;
+  border-radius: 50% 50% 0 0;
+  background: var(--sea);
+}
+
+.foreground-rock {
+  position: absolute;
+  z-index: 14;
+  right: -3%;
+  bottom: -4%;
+  width: 43%;
+  height: 20%;
+  transform: rotate(4deg);
+  clip-path: polygon(0 62%, 17% 39%, 39% 48%, 59% 15%, 79% 31%, 100% 9%, 100% 100%, 0 100%);
+  background: linear-gradient(170deg, var(--stone), var(--cliff) 68%);
+}
+
+.bird {
+  position: absolute;
+  z-index: 4;
+  width: 3.2%;
+  height: 1.4%;
+  border-top: 2px solid var(--shadow, oklch(20% 0.04 242));
+  border-radius: 50%;
+  transform: rotate(-8deg);
+}
+
+.bird::after {
+  position: absolute;
+  top: -2px;
+  left: 48%;
+  width: 100%;
+  height: 100%;
+  border-top: 2px solid var(--shadow, oklch(20% 0.04 242));
+  border-radius: 50%;
+  transform: rotate(18deg);
+  content: "";
+}
+
+.bird-one {
+  top: 29%;
+  left: 20%;
+}
+
+.bird-two {
+  top: 36%;
+  left: 12%;
+  transform: scale(0.7) rotate(-8deg);
+}
+
+.scene-note {
+  position: absolute;
+  z-index: 16;
+  right: 3%;
+  bottom: 3%;
+  color: color-mix(in oklch, var(--horizon) 88%, white);
+  font-size: clamp(8px, 1.5vw, 10px);
+  text-shadow: 0 1px 5px var(--shadow);
+}
+
+.colophon {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 3px 0;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+/* Theme overrides: the illustration itself only reads these roles. */
+body:has(#midnight:checked) {
+  color-scheme: dark;
+  --sky: oklch(32% 0.08 258);
+  --horizon: oklch(48% 0.09 277);
+  --sea: oklch(37% 0.1 231);
+  --cliff: oklch(23% 0.045 266);
+  --stone: oklch(39% 0.055 286);
+  --accent: oklch(80% 0.14 95);
+  --shadow: oklch(13% 0.035 265);
+  --page: oklch(19% 0.025 264);
+  --text: oklch(90% 0.025 83);
+  --muted: oklch(69% 0.035 265);
+}
+
+@media (max-width: 520px) {
+  .page {
+    width: min(100% - 28px, 920px);
+  }
+
+  .colophon {
+    flex-direction: column;
+    gap: 7px;
+  }
+}
